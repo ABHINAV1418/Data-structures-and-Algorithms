@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+ // } Driver Code Ends
+//User function template for C++
+class Solution{
+public:
+	int search(string pat, string txt) {
+	   unordered_map<char,int>m;
+	   int count=0,i,j=0,res=0;
+	   for(i=0;i<pat.size();i++)
+	   {
+	       if(m.find(pat[i])==m.end())
+	           {
+	               m.insert(make_pair(pat[i],1));
+	               count++;
+	           }
+	           else
+	           m[pat[i]]++;
+	   }
+	   i=0;
+	   while(j<txt.size())
+	   {
+	      if(m.find(txt[j])!=m.end())
+	      {
+	          if(m[txt[j]]==1)
+	          {
+	              m[txt[j]]--;
+	              count--;
+	          }
+	          else //if(m[txt[j]]>1)
+	          m[txt[j]]--;
+	      }
+	      if(j-i+1<pat.size())
+	      j++;
+	      else if(j-i+1==pat.size())
+	      {
+	          if(count==0)
+	          res++;
+	          if(m.find(txt[i])!=m.end()&&m[txt[i]]==0){
+	          m[txt[i]]++;
+	          count++;
+	          }
+	          else if(m.find(txt[i])!=m.end())
+	          m[txt[i]]++;
+	          i++;
+	          j++;
+	      }
+	   }
+	   return res;
+	}
+
+};
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        string pat, txt;
+        cin >> txt >> pat;
+        Solution ob;
+        auto ans = ob.search(pat, txt);
+        cout << ans << "\n";
+    }
+    return 0;
+}  // } Driver Code Ends
