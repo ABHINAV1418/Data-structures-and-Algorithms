@@ -1,0 +1,88 @@
+// This is the Disjoint Set Appraoch to Road and Libraries Problem.
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define w(x)    int x; cin>>x; while(x--)
+#define pi (3.141592653589)
+#define mod 1000000007
+#define int long long
+#define float double
+#define endl "\n"
+#define pb push_back
+#define mp make_pair
+#define ff first
+#define ss second
+#define mii             map<int,int>
+#define msi          map<string,int>
+#define vi               vector<int>
+#define vs            vector<string>
+#define si                  set<int>
+
+struct DSU {
+vector<int> par, size;
+DSU(int n) {
+  par.resize(n + 1);
+  size.assign(n + 1, 1);
+  iota(par.begin(), par.end(), 0);
+}
+inline int find(int u) {
+  return (u == par[u] ? u : par[u] = find(par[u]));
+}
+int get_size(int u) {
+  return size[find(u)];
+}
+inline bool merge(int u, int v) {
+  u = find(u);
+  v = find(v);
+  if (u == v) return false;
+  if (rand() % 2) swap(u, v);
+  par[v] = u;
+  size[u] += size[v];
+  return true;
+}
+};
+void solve()
+{
+  int n,m,lib,road,i;
+  cin>>n>>m>>lib>>road;
+  DSU dsu(n+1) ;
+  for(i=0;i<m;i++)
+  {
+      int a,b;
+      cin>>a>>b;
+      dsu.merge(a,b);
+  }
+  if(road>=lib)
+  {
+      cout<<n*lib<<endl;
+      return ;
+  }
+  mii M;
+  for(i=1;i<=n;i++)
+  {
+      M[dsu.find(i)]++;
+  }
+  int cost=0;
+  for(auto it: M)
+  {
+      if(it.ss>1)
+      {
+          cost+=((it.ss-1)*road+lib);
+      }
+      else if(it.ss==1)
+      cost+=lib;
+  }
+  cout<<cost<<endl;
+  return ;
+}
+
+int32_t main()
+{
+ios_base::sync_with_stdio(false);
+cin.tie(NULL);
+
+  w(x)
+     {
+solve();
+     }
+}
